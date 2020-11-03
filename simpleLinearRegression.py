@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
 class simpleLinearRegression:
     """
@@ -31,6 +32,8 @@ class simpleLinearRegression:
         Generates a set of predictions for a given vector
     mse(yPred, yActual)
         Calculate the Mean Squared Error
+    plot(yPred)
+        Plots data points
     """
 
     def __init__(self):
@@ -86,7 +89,7 @@ class simpleLinearRegression:
     def printEquation(self):
         """Print out the equation if it exists"""
         if self.b1 is not None and self.b0 is not None:
-            print(f"Equation:\n\tY = {self.b1} * x + {self.b0}")
+            print(f"Eqaution:\n\tY = {self.b1} * x + {self.b0}")
         else:
             print("[ERROR] - No equation found.")
 
@@ -119,6 +122,29 @@ class simpleLinearRegression:
         """
         return sum((yPred-yActual)**2) / yPred.shape[0]
 
+    def plot(self, X, Y):
+        """
+        Plots data points
+
+        Parameters
+        ----------
+        X : numpy Array
+            Array of X values
+        Y : numpy array
+            Array of Y values
+        """
+        # Plot data points
+        plt.scatter(X, Y)
+
+        # Plot line
+        x = np.linspace(X.min(), X.max(), X.shape[0])
+        plt.plot(x, self.b1*x+self.b0, linestyle='solid', color='red')
+
+        # Add labels and show
+        plt.title('Weight vs Height')
+        plt.xlabel('Height')
+        plt.ylabel('Weight')
+        plt.show()
 
 if __name__ == '__main__':
     """Run Simple Linear Regression to predict the weight of Male based on their Height"""
@@ -151,3 +177,5 @@ if __name__ == '__main__':
 
     print("Mean Squared Error: ", error)
     print("Root Mean Squared Error: ", error**0.5)
+
+    linearReg.plot(Xtest, Ytest)
